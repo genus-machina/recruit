@@ -1,0 +1,13 @@
+#!/bin/bash -e
+
+IMAGE="${1}"
+
+if [ -z "${IMAGE}" ]
+then
+	echo "An image is required"
+	exit 1
+fi
+
+NAME=$(basename "${IMAGE}")
+
+mount | grep "${NAME}" | cut -d' ' -f 3 | sort -r | xargs umount

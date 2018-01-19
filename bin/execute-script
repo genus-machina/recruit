@@ -1,0 +1,29 @@
+#!/bin/bash -e
+
+MOUNT_POINT="${1}"
+SCRIPT="${2}"
+
+function cleanup () {
+	set +e
+	rm -f "${MOUNT_POINT}/tmp/${SCRIPT_NAME}"
+}
+
+if [ -z "${MOUNT_POINT}" ]
+then
+	echo "A mount point is required"
+	exit 1
+fi
+
+if [ -z "${SCRIPT}" ]
+then
+	echo "A script is required"
+	exit 1
+fi
+
+trap cleanup EXIT
+
+SCRIPT_NAME=$(basename "${SCRIPT}")
+
+cp "${SCRIPT}" "${MOUNT_POINT}/tmp/${SCRIPT_NAME}"
+chmod +x "${MOUNT_POINT}/tmp/${SCRIPT_NAME}"
+chroot "${MOUNT_POINT}" "/tmp/${SCRIPT_NAME}"

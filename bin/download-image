@@ -1,0 +1,27 @@
+#!/bin/bash -e
+
+function cleanup () {
+	rm -rf "${SCRATCH_DIRECTORY}"
+}
+
+IMAGE="${1}"
+RASPBIAN_ARCHIVE=raspbian.img.zip
+RASPBIAN_URL=https://downloads.raspberrypi.org/raspbian_lite_latest
+SCRATCH_DIRECTORY=$(mktemp -d overlord_scratch.XXXXXXX)
+
+trap cleanup EXIT
+
+if [ -z "${IMAGE}" ]
+then
+	echo "An image is required"
+	exit 1
+fi
+
+pushd "${SCRATCH_DIRECTORY}" > /dev/null
+echo "Downloading the latest raspbian image..."
+curl -#L -o "${RASPBIAN_ARCHIVE}" "${RASPBIAN_URL}"
+echo "Unarchiving the raspbian image..."
+unzip "${RASPBIAN_ARCHIVE}"
+popd > /dev/null
+
+mv ${SCRATCH_DIRECTORY}/*.img ${IMAGE}

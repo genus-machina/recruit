@@ -1,0 +1,28 @@
+#!/bin/bash -e
+
+function cleanup () {
+	set +e
+	${DIRECTORY}/unmount-image "${IMAGE}"
+	rm -rf "${MOUNT_POINT}"
+}
+
+DIRECTORY=$(dirname "${BASH_SOURCE[0]}")
+IMAGE="${1}"
+
+if [ -z "${IMAGE}" ]
+then
+	echo "An image is required"
+	exit 1
+fi
+
+trap cleanup EXIT
+
+MOUNT_POINT=$(mktemp -d overlord.mount.XXXXXXX)
+${DIRECTORY}/mount-image "${IMAGE}" "${MOUNT_POINT}"
+
+shift
+
+for script in "${@}"
+do
+	${DIRECTORY}/execute-script "${MOUNT_POINT}" "${script}"
+done

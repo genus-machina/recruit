@@ -1,0 +1,14 @@
+#!/bin/bash -e
+
+DIRECTORY=$(dirname "${BASH_SOURCE[0]}")
+IMAGE="${1}"
+
+if [ -z "${IMAGE}" ]
+then
+	echo "An image is required"
+	exit 1
+fi
+
+shift
+${DIRECTORY}/download-image "${IMAGE}"
+${DIRECTORY}/prepare-image "${IMAGE}" ${DIRECTORY}/../scripts/*.sh
