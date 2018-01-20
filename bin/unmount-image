@@ -1,5 +1,9 @@
 #!/bin/bash -e
 
+function find-mounts () {
+	mount | grep "${1}" | cut -d' ' -f 3
+}
+
 IMAGE="${1}"
 
 if [ -z "${IMAGE}" ]
@@ -9,5 +13,7 @@ then
 fi
 
 NAME=$(basename "${IMAGE}")
+MOUNT_POINT=$(find-mounts "${NAME}" | head -n 1)
 
-mount | grep "${NAME}" | cut -d' ' -f 3 | sort -r | xargs umount
+rm -f "${MOUNT_POINT}/usr/bin/qemu-arm-static"
+find-mounts "${NAME}" | sort -r | xargs umount

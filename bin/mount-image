@@ -15,3 +15,10 @@ SECTOR_SIZE=$(fdisk -l "${IMAGE}" | grep 'Sector size' | cut -d' ' -f 4)
 
 mount -o loop,offset=$((${ROOT_START} * ${SECTOR_SIZE})) "${IMAGE}" "${MOUNT_POINT}"
 mount -o loop,offset=$((${BOOT_START} * ${SECTOR_SIZE})) "${IMAGE}" "${MOUNT_POINT}/boot"
+
+ARCH=$(uname -m)
+
+if [ "${ARCH:0:3}" != "arm" ]
+then
+	cp /usr/bin/qemu-arm-static "${MOUNT_POINT}/usr/bin/"
+fi
