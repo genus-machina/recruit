@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+  - '8'
+deploy:
+  provider: npm
+  email: simplex.rimor@gmail.com
+  api_key:
+    secure: laMsaKLQ3nSTAprOk+fmibmFVbB/lj1d3UC5V6VjpMhmgZKUwGl7Q5c5LTGxFmKGTq57NhOOrTJDPj05nWwPoxT2C+HxcVXX/wsp2yNTocOHaEoTP+8xzQTuQKmYRpE7LvIdWWrxLFu5E6q5sh6OMCiUH7MvTa4G95Zg2MPAocJ4LY0yrEaKzcVl3ki8Vt+9x/y4A3tj5Dja+Bhb8jh3i7GxWJhb8VH2w65P5vAbyArGkFlDAnJxNMIqzv7Q4meuBFh3kYDlQXW4oFGAA98Srn8JF5DCoiBn1PSlp4B9MvvIU8XyqfuJstYPPchlWkn9IkfjqIBv6dCWgcEfQ0jIC8B2Jy7rD1P/rJJO6IwOi/QnVs55bfFHvztpE6KTWGRTD+5SVqxJuwMEEDPPb6s8VTQAMuRgMX9DGkdo/uBSSR/mOynObWHD5DxRfaLiWaDJqd76fCPihxVCCErjt0WDIf7QjwRgAdy6hmPxXis9uMhQ+5Z3iSbgmQpkvEzInDUB3JaR67XahXFoNHr3ONgw9SAOQYmZlqUOvNnIc7MjUwQJxHvPv17c8uk/hE3SIaZJA7gXl3l9CQZUvgzTuCGzPkc4rHrJ8AfQCDusRXcR0I5+V30GoaoBQ+YntNO6Eb+QYTdyPWDHhKg4q2pMtb7SEaBqg70283W7JXUYi8kauPk=
+  on:
+    branch: master
+    tags: true
+    repo: genus-machina/recruit

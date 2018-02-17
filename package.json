@@ -1,0 +1,19 @@
+{
+  "name": "@genus-machina/recruit",
+  "version": "1.0.0",
+  "description": "Helper scripts for creating custom Raspberry Pi images",
+	"bin": "./bin/recruit",
+  "scripts": {
+    "test": "echo \"No test specified\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/genus-machina/recruit.git"
+  },
+  "author": "Simplex Rimor <simplex.rimor@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/genus-machina/recruit/issues"
+  },
+  "homepage": "https://github.com/genus-machina/recruit#readme"
+}

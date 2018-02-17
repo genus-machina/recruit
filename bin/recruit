@@ -1,0 +1,13 @@
+#!/bin/bash -e
+
+SCRIPT_DIRECTORY=$(dirname $(readlink -e ${BASH_SOURCE[0]}))
+COMMAND="${1}"
+shift
+
+if [ -z "${COMMAND}" ]
+then
+	echo "A command is required"
+	exit 1
+fi
+
+${SCRIPT_DIRECTORY}/${COMMAND} "${@}"
