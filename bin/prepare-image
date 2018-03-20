@@ -17,7 +17,7 @@ fi
 
 trap cleanup EXIT
 
-MOUNT_POINT=$(mktemp -d overlord.mount.XXXXXXX)
+MOUNT_POINT=$(mktemp -d recruit_mount.XXXXXXX)
 ${DIRECTORY}/mount-image "${IMAGE}" "${MOUNT_POINT}"
 
 shift
