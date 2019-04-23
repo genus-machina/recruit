@@ -11,4 +11,4 @@ fi
 
 shift
 ${DIRECTORY}/download-image "${IMAGE}"
-${DIRECTORY}/prepare-image "${IMAGE}" ${DIRECTORY}/../scripts/*.sh
+${DIRECTORY}/prepare-image "${IMAGE}" ${DIRECTORY}/../scripts/S*.sh

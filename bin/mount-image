@@ -9,9 +9,9 @@ then
 	exit 1
 fi
 
-BOOT_START=$(fdisk -l "${IMAGE}" | grep "${IMAGE}1" | awk '{ print $2 }')
-ROOT_START=$(fdisk -l "${IMAGE}" | grep "${IMAGE}2" | awk '{ print $2 }')
-SECTOR_SIZE=$(fdisk -l "${IMAGE}" | grep 'Sector size' | cut -d' ' -f 4)
+BOOT_START=$(fdisk -lu "${IMAGE}" | grep "${IMAGE}1" | awk '{ print $2 }')
+ROOT_START=$(fdisk -lu "${IMAGE}" | grep "${IMAGE}2" | awk '{ print $2 }')
+SECTOR_SIZE=$(fdisk -lu "${IMAGE}" | grep 'Units' | cut -d' ' -f9)
 
 mount -o loop,offset=$((${ROOT_START} * ${SECTOR_SIZE})) "${IMAGE}" "${MOUNT_POINT}"
 mount -o loop,offset=$((${BOOT_START} * ${SECTOR_SIZE})) "${IMAGE}" "${MOUNT_POINT}/boot"
