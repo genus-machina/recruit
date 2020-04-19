@@ -9,12 +9,15 @@ then
 	exit 1
 fi
 
-BOOT_START=$(fdisk -l "${IMAGE}" | grep "${IMAGE}1" | awk '{ print $2 }')
-ROOT_START=$(fdisk -l "${IMAGE}" | grep "${IMAGE}2" | awk '{ print $2 }')
 SECTOR_SIZE=$(fdisk -l "${IMAGE}" | grep 'Sector size' | cut -d' ' -f 4)
 
-mount -o loop,offset=$((${ROOT_START} * ${SECTOR_SIZE})) "${IMAGE}" "${MOUNT_POINT}"
-mount -o loop,offset=$((${BOOT_START} * ${SECTOR_SIZE})) "${IMAGE}" "${MOUNT_POINT}/boot"
+BOOT_START=$(fdisk --bytes -lo Device,Start,Size "${IMAGE}" | grep "${IMAGE}1" | awk '{ print $2 }')
+BOOT_SIZE=$(fdisk --bytes -lo Device,Start,Size "${IMAGE}" | grep "${IMAGE}1" | awk '{ print $3 }')
+ROOT_START=$(fdisk --bytes -lo Device,Start,Size "${IMAGE}" | grep "${IMAGE}2" | awk '{ print $2 }')
+ROOT_SIZE=$(fdisk --bytes -lo Device,Start,Size "${IMAGE}" | grep "${IMAGE}2" | awk '{ print $3 }')
+
+mount -o loop,offset=$((${ROOT_START} * ${SECTOR_SIZE})),sizelimit=${ROOT_SIZE} "${IMAGE}" "${MOUNT_POINT}"
+mount -o loop,offset=$((${BOOT_START} * ${SECTOR_SIZE})),sizelimit=${BOOT_SIZE} "${IMAGE}" "${MOUNT_POINT}/boot"
 
 ARCH=$(uname -m)
 

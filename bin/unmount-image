@@ -15,5 +15,11 @@ fi
 NAME=$(basename "${IMAGE}")
 MOUNT_POINT=$(find-mounts "${NAME}" | head -n 1)
 
+if [ -z "${MOUNT_POINT}" ]
+then
+	echo "Failed to find mount point."
+	exit 1
+fi
+
 rm -f "${MOUNT_POINT}/usr/bin/qemu-arm-static"
 find-mounts "${NAME}" | sort -r | xargs umount
