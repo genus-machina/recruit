@@ -9,7 +9,7 @@ then
 	exit 1
 fi
 
-SECTOR_SIZE=$(fdisk -l "${IMAGE}" | grep 'Sector size' | cut -d' ' -f 4)
+SECTOR_SIZE=$(fdisk -lu "${IMAGE}" | grep 'Units' | cut -d' ' -f8)
 
 BOOT_START=$(fdisk --bytes -lo Device,Start,Size "${IMAGE}" | grep "${IMAGE}1" | awk '{ print $2 }')
 BOOT_SIZE=$(fdisk --bytes -lo Device,Start,Size "${IMAGE}" | grep "${IMAGE}1" | awk '{ print $3 }')
