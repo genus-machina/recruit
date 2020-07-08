@@ -6,7 +6,7 @@ function cleanup () {
 
 IMAGE="${1}"
 RASPBIAN_ARCHIVE=raspbian.img.zip
-RASPBIAN_URL=https://downloads.raspberrypi.org/raspbian_lite_latest
+RASPBIAN_URL=https://downloads.raspberrypi.org/raspios_lite_armhf_latest
 SCRATCH_DIRECTORY=$(mktemp -d recruit_scratch.XXXXXXX)
 
 trap cleanup EXIT
