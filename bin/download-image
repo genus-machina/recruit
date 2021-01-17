@@ -4,9 +4,10 @@ function cleanup () {
 	rm -rf "${SCRATCH_DIRECTORY}"
 }
 
+ARCH="${ARCH:-armhf}"
 IMAGE="${1}"
 RASPBIAN_ARCHIVE=raspbian.img.zip
-RASPBIAN_URL=https://downloads.raspberrypi.org/raspios_lite_armhf_latest
+RASPBIAN_URL="https://downloads.raspberrypi.org/raspios_lite_${ARCH}_latest"
 SCRATCH_DIRECTORY=$(mktemp -d recruit_scratch.XXXXXXX)
 
 trap cleanup EXIT
