@@ -6,9 +6,16 @@ function cleanup () {
 
 ARCH="${ARCH:-armhf}"
 IMAGE="${1}"
-RASPBIAN_ARCHIVE=raspbian.img.zip
-RASPBIAN_URL="https://downloads.raspberrypi.org/raspios_lite_${ARCH}_latest"
+RASPOS_ARCHIVE=raspos.img.xz
+RASPOS_IMAGES_URL="https://downloads.raspberrypi.org/raspios_lite_${ARCH}/images"
 SCRATCH_DIRECTORY=$(mktemp -d recruit_scratch.XXXXXXX)
+
+function get-image-url () {
+	local RELEASE=$(curl -sL "${RASPOS_IMAGES_URL}" | html2text | grep -F '[[DIR]]' | tr -s ' ' | cut -d' ' -f 2 | sort -r | head -n1)
+	local RELEASE_URL="${RASPOS_IMAGES_URL}/${RELEASE}"
+	local IMAGE=$(curl -sL https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2022-04-07/ | html2text -width 256 | grep 'img\.xz\s' | tr -s ' ' | cut -d' ' -f3)
+	echo "${RASPOS_IMAGES_URL}/${RELEASE}${IMAGE}"
+}
 
 trap cleanup EXIT
 
@@ -19,10 +26,11 @@ then
 fi
 
 pushd "${SCRATCH_DIRECTORY}" > /dev/null
-echo "Downloading the latest raspbian image..."
-curl -#L -o "${RASPBIAN_ARCHIVE}" "${RASPBIAN_URL}"
-echo "Unarchiving the raspbian image..."
-unzip "${RASPBIAN_ARCHIVE}"
+echo "Downloading the latest raspos image..."
+RASPOS_URL=$(get-image-url)
+curl -#L -o "${RASPOS_ARCHIVE}" "${RASPOS_URL}"
+echo "Unarchiving the raspos image..."
+xz --decompress "${RASPOS_ARCHIVE}"
 popd > /dev/null
 
 mv ${SCRATCH_DIRECTORY}/*.img ${IMAGE}
