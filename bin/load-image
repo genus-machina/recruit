@@ -1,0 +1,21 @@
+#!/bin/bash -e
+
+DIRECTORY=$(dirname "${BASH_SOURCE[0]}")
+
+DEVICE="${2}"
+IMAGE="${1}"
+
+if [ -z "${IMAGE}" ]
+then
+	echo "An image is required"
+	exit 1
+fi
+
+if [ -z "${DEVICE}" ]
+then
+	echo "A device is required"
+	exit 1
+fi
+
+shift 2
+dd if="${IMAGE}" of="${DEVICE}" bs=4M status=progress
