@@ -13,7 +13,7 @@ SCRATCH_DIRECTORY=$(mktemp -d recruit_scratch.XXXXXXX)
 function get-image-url () {
 	local RELEASE=$(curl -sL "${RASPOS_IMAGES_URL}" | html2text | grep -F '[[DIR]]' | tr -s ' ' | cut -d' ' -f 2 | sort -r | head -n1)
 	local RELEASE_URL="${RASPOS_IMAGES_URL}/${RELEASE}"
-	local IMAGE=$(curl -sL https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2022-04-07/ | html2text -width 256 | grep 'img\.xz\s' | tr -s ' ' | cut -d' ' -f3)
+	local IMAGE=$(curl -sL "${RELEASE_URL}" | html2text -width 256 | grep 'img\.xz\s' | tr -s ' ' | cut -d' ' -f3)
 	echo "${RASPOS_IMAGES_URL}/${RELEASE}${IMAGE}"
 }
 
@@ -28,6 +28,7 @@ fi
 pushd "${SCRATCH_DIRECTORY}" > /dev/null
 echo "Downloading the latest raspos image..."
 RASPOS_URL=$(get-image-url)
+echo "Downloading image ${RASPOS_URL}"
 curl -#L -o "${RASPOS_ARCHIVE}" "${RASPOS_URL}"
 echo "Unarchiving the raspos image..."
 xz --decompress "${RASPOS_ARCHIVE}"
